@@ -1,0 +1,75 @@
+<!doctype HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<style>
+    .text-genTxt {
+        width: 400px;
+        text-align: justify;
+        text-indent: 1.5em;
+    }
+</style>
+  <script>
+function genTxt(ct) {
+    let txt = "<div class='text-genTxt'>";
+    for (let i = 0; i < ct; i++) {
+        txt += para(2 + makeRandomInt(12)) + " ";
+    }
+    return txt+"</div>";
+}
+function para(ct) {
+    let txt="<p>";
+    for (let i = 0; i < ct; i++) {
+        txt+=sen(2 + makeRandomInt(12 ))+" ";
+    }
+    return txt+"</p>";
+}
+function sen(ct) {
+    let txt = wd(2 + makeRandomInt(8)),
+        acm = "";
+    // if (txt.length > 10) console.log('txt', txt);
+
+    acm += txt[0].toUpperCase() + txt.slice(1);
+    for (let i = 1; i < ct; i++) {
+        txt = wd(2 + makeRandomInt(8))
+        // if (txt.length > 10) console.log('txt', txt);
+        acm += " " + txt;
+    }
+    return acm + ".";
+}
+
+function wd(count) {
+    const con = "bcdfghklmnpqrstvwxz",
+        vw = "aeijouy";
+    let acm,b;
+    do {b=false;acm = "";
+        for (let i = 0; i < count; i++) {
+            let lt = makeRandomInt(2) ? con[makeRandomInt(19)] : vw[makeRandomInt(7)];
+            while (acm.length>1 && acm[acm.length-1]===lt && acm[acm.length-2]===lt)
+                lt = makeRandomInt(2) ? con[makeRandomInt(19)] : vw[makeRandomInt(7)];
+            if (acm.length>0 && acm[acm.length-1]===lt)
+                lt = makeRandomInt(2) ? con[makeRandomInt(19)] : vw[makeRandomInt(7)];
+            acm += lt;
+        }
+    } while (notFit(acm));
+    return acm;
+    function notFit(txt) {
+        if (txt.length<4) return false
+        for (let i=0; i < txt.length; i++ ) {
+            let allcon = acm.slice(i, i+4).split('').every(function (ch, i) {
+                return ~con.indexOf(ch.toLowerCase());
+            });
+            if (allcon) return true;
+        }
+        return false;
+    }
+}
+function makeRandomInt(limit) {
+    return Math.floor(limit * Math.random())
+}
+      document.write( genTxt(10) );
+  </script>
+</head>
+<body></body>
+</html>
